@@ -1,0 +1,1527 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Env Designer Pro – Senaro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --bg: #080f1e;
+      --sb: #0e1a2e;
+      --panel: #132039;
+      --p2: #1a2d47;
+      --brd: #1e3559;
+      --acc: #fbbf24;
+      --grn: #22c55e;
+      --red: #ef4444;
+      --blu: #3b82f6;
+      --txt: #f0f6ff;
+      --mut: #4a6080
+    }
+
+    body {
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--txt);
+      font-family: 'Outfit', sans-serif
+    }
+
+    #sb {
+      width: 270px;
+      min-width: 270px;
+      background: var(--sb);
+      border-right: 1px solid var(--brd);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 20
+    }
+
+    #sbh {
+      padding: 14px 14px 8px;
+      border-bottom: 1px solid var(--brd)
+    }
+
+    #sbh h1 {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--acc);
+      text-transform: uppercase;
+      letter-spacing: 2px
+    }
+
+    #sbh p {
+      font-size: .65rem;
+      color: var(--mut);
+      margin-top: 2px
+    }
+
+    #tabs {
+      display: flex;
+      border-bottom: 1px solid var(--brd)
+    }
+
+    .tab {
+      flex: 1;
+      padding: 8px 2px;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--mut);
+      font-family: inherit;
+      font-size: .62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: .15s
+    }
+
+    .tab.on {
+      color: var(--acc);
+      border-bottom-color: var(--acc);
+      background: rgba(251, 191, 36, .05)
+    }
+
+    .tp {
+      display: none;
+      flex: 1;
+      flex-direction: column;
+      overflow-y: auto
+    }
+
+    .tp.on {
+      display: flex
+    }
+
+    #srch {
+      padding: 8px 10px 4px;
+      position: sticky;
+      top: 0;
+      background: var(--sb);
+      z-index: 5;
+      border-bottom: 1px solid var(--brd)
+    }
+
+    #srch input {
+      width: 100%;
+      background: var(--panel);
+      border: 1px solid var(--brd);
+      border-radius: 6px;
+      color: var(--txt);
+      padding: 6px 10px;
+      font-family: inherit;
+      font-size: .75rem;
+      outline: none
+    }
+
+    .cat-lbl {
+      padding: 7px 10px 3px;
+      font-size: .6rem;
+      font-weight: 700;
+      color: var(--mut);
+      text-transform: uppercase;
+      letter-spacing: 1.5px
+    }
+
+    .agrid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5px;
+      padding: 5px 8px
+    }
+
+    .acard {
+      background: var(--panel);
+      border: 1px solid var(--brd);
+      border-radius: 7px;
+      padding: 5px;
+      cursor: pointer;
+      transition: .15s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px
+    }
+
+    .acard:hover {
+      border-color: var(--acc);
+      transform: scale(1.02)
+    }
+
+    .acard.sel {
+      border-color: var(--grn);
+      background: #0a2a15
+    }
+
+    .acard img {
+      width: 100%;
+      height: 55px;
+      object-fit: contain;
+      border-radius: 3px;
+      pointer-events: none
+    }
+
+    .acard span {
+      font-size: .6rem;
+      font-weight: 600;
+      color: #94a3b8;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%
+    }
+
+    #imp-area {
+      padding: 8px 10px;
+      border-top: 1px solid var(--brd)
+    }
+
+    #imp-area input[type=file] {
+      display: none
+    }
+
+    #btn-imp {
+      width: 100%;
+      padding: 8px;
+      background: linear-gradient(135deg, #1d4ed8, #2563eb);
+      border: none;
+      border-radius: 7px;
+      color: #fff;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: .72rem;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px
+    }
+
+    #imp-st {
+      font-size: .62rem;
+      color: var(--grn);
+      text-align: center;
+      margin-top: 4px;
+      min-height: 14px
+    }
+
+    #pp {
+      padding: 10px
+    }
+
+    .pg {
+      margin-bottom: 12px
+    }
+
+    .pg label {
+      display: block;
+      font-size: .6rem;
+      font-weight: 700;
+      color: var(--mut);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 5px
+    }
+
+    .pr {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 7px
+    }
+
+    .pr span {
+      font-size: .72rem;
+      color: #94a3b8;
+      min-width: 52px
+    }
+
+    .pr input[type=range] {
+      flex: 1;
+      cursor: pointer;
+      accent-color: var(--acc)
+    }
+
+    .pr input[type=number] {
+      width: 70px;
+      background: var(--panel);
+      border: 1px solid var(--brd);
+      border-radius: 5px;
+      color: var(--txt);
+      padding: 4px 6px;
+      font-family: inherit;
+      font-size: .72rem;
+      outline: none
+    }
+
+    .vb {
+      font-size: .68rem;
+      font-weight: 700;
+      color: var(--acc);
+      min-width: 32px;
+      text-align: right
+    }
+
+    .lbs {
+      display: flex;
+      gap: 4px
+    }
+
+    .lb {
+      flex: 1;
+      padding: 5px;
+      border: 1px solid var(--brd);
+      border-radius: 5px;
+      background: var(--panel);
+      color: var(--mut);
+      font-family: inherit;
+      font-size: .6rem;
+      font-weight: 700;
+      cursor: pointer
+    }
+
+    .lb.on {
+      background: rgba(251, 191, 36, .2);
+      border-color: var(--acc);
+      color: var(--acc)
+    }
+
+    .ag {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5px;
+      margin-top: 8px
+    }
+
+    .ab {
+      padding: 7px;
+      border: none;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: .68rem;
+      font-weight: 700;
+      cursor: pointer
+    }
+
+    .ab.cl {
+      background: var(--p2);
+      color: var(--txt)
+    }
+
+    .ab.dl {
+      background: #3a0f0f;
+      color: var(--red)
+    }
+
+    .ab.fl {
+      background: var(--p2);
+      color: var(--blu)
+    }
+
+    .ab.se {
+      background: var(--p2);
+      color: #a855f7
+    }
+
+    #ns {
+      padding: 25px 14px;
+      text-align: center;
+      color: var(--mut);
+      font-size: .78rem;
+      line-height: 1.8
+    }
+
+    #ns .ic {
+      font-size: 1.8rem;
+      margin-bottom: 5px
+    }
+
+    #si {
+      font-size: .63rem;
+      color: var(--mut);
+      padding: 7px;
+      background: var(--panel);
+      border-radius: 5px;
+      line-height: 1.6;
+      margin-top: 8px
+    }
+
+    #llst {
+      padding: 8px
+    }
+
+    .lr {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 9px;
+      border-radius: 6px;
+      background: var(--panel);
+      border: 1px solid var(--brd);
+      margin-bottom: 5px;
+      cursor: pointer
+    }
+
+    .lr:hover {
+      border-color: var(--acc)
+    }
+
+    .lr .le {
+      cursor: pointer;
+      font-size: .95rem
+    }
+
+    .lr .ln {
+      flex: 1;
+      font-size: .72rem;
+      font-weight: 600
+    }
+
+    .lr .lc {
+      font-size: .62rem;
+      color: var(--mut)
+    }
+
+    #ww {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      background: #050d1a
+    }
+
+    #mc {
+      display: block;
+      width: 100%;
+      height: 100%;
+      cursor: crosshair
+    }
+
+    #tb {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 5px;
+      background: rgba(8, 15, 30, .88);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--brd);
+      border-radius: 25px;
+      padding: 5px 10px;
+      z-index: 50
+    }
+
+    .tb {
+      padding: 5px 12px;
+      border: 1px solid transparent;
+      border-radius: 18px;
+      background: none;
+      color: var(--mut);
+      font-family: inherit;
+      font-size: .68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: .15s
+    }
+
+    .tb.on {
+      background: rgba(251, 191, 36, .15);
+      border-color: var(--acc);
+      color: var(--acc)
+    }
+
+    #hb {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(8, 15, 30, .82);
+      backdrop-filter: blur(6px);
+      border: 1px solid var(--brd);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: .6rem;
+      color: var(--mut);
+      line-height: 1.9;
+      z-index: 50;
+      pointer-events: none;
+      max-width: 170px
+    }
+
+    #hb b {
+      color: #64748b;
+      display: block;
+      margin-top: 2px
+    }
+
+    #gb {
+      position: absolute;
+      top: 10px;
+      right: 14px;
+      z-index: 50
+    }
+
+    .gt {
+      padding: 5px 11px;
+      border-radius: 18px;
+      background: rgba(8, 15, 30, .82);
+      border: 1px solid var(--brd);
+      color: var(--mut);
+      font-family: inherit;
+      font-size: .62rem;
+      font-weight: 700;
+      cursor: pointer
+    }
+
+    .gt.on {
+      border-color: var(--grn);
+      color: var(--grn)
+    }
+
+    #stat {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(8, 15, 30, .92);
+      border-top: 1px solid var(--brd);
+      padding: 4px 14px;
+      display: flex;
+      gap: 18px;
+      font-size: .62rem;
+      color: var(--mut)
+    }
+
+    #stat b {
+      color: var(--txt)
+    }
+
+    #bc {
+      position: absolute;
+      bottom: 30px;
+      right: 14px;
+      display: flex;
+      gap: 7px;
+      z-index: 50
+    }
+
+    .cb {
+      padding: 9px 16px;
+      border: none;
+      border-radius: 22px;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: .75rem;
+      cursor: pointer
+    }
+
+    .cb.pr {
+      background: linear-gradient(135deg, var(--acc), #f59e0b);
+      color: #1e293b
+    }
+
+    .cb.sc {
+      background: var(--p2);
+      color: var(--txt);
+      border: 1px solid var(--brd)
+    }
+
+    .cb.dr {
+      background: #3a0f0f;
+      color: var(--red);
+      border: 1px solid #5a1a1a
+    }
+
+    .ov {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .7);
+      z-index: 200;
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center
+    }
+
+    .ov.show {
+      display: flex
+    }
+
+    #em {
+      width: min(680px, 90vw);
+      background: var(--sb);
+      border: 1px solid var(--acc);
+      border-radius: 14px;
+      padding: 22px
+    }
+
+    #em h2 {
+      color: var(--acc);
+      margin-bottom: 6px
+    }
+
+    #em p {
+      font-size: .78rem;
+      color: var(--mut);
+      margin-bottom: 10px
+    }
+
+    #et {
+      width: 100%;
+      height: 300px;
+      background: #03070f;
+      color: #4ade80;
+      font-family: monospace;
+      font-size: 11px;
+      padding: 10px;
+      border: 1px solid var(--brd);
+      border-radius: 7px;
+      resize: none;
+      outline: none
+    }
+
+    .ma {
+      display: flex;
+      gap: 7px;
+      margin-top: 10px
+    }
+
+    #im {
+      width: min(440px, 90vw);
+      background: var(--sb);
+      border: 1px solid var(--blu);
+      border-radius: 14px;
+      padding: 22px
+    }
+
+    #im h2 {
+      color: var(--blu);
+      margin-bottom: 6px
+    }
+
+    #ipv {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin: 12px 0;
+      max-height: 180px;
+      overflow-y: auto
+    }
+
+    .it {
+      width: 75px;
+      text-align: center
+    }
+
+    .it img {
+      width: 100%;
+      height: 55px;
+      object-fit: contain;
+      border-radius: 5px;
+      border: 1px solid var(--brd);
+      background: var(--panel)
+    }
+
+    .it span {
+      display: block;
+      font-size: .58rem;
+      color: var(--mut);
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap
+    }
+
+    ::-webkit-scrollbar {
+      width: 3px
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--brd);
+      border-radius: 2px
+    }
+  </style>
+</head>
+
+<body>
+  <div id="sb">
+    <div id="sbh">
+      <h1>⚡ Env Designer Pro</h1>
+      <p>Senaro Avurudu · Environment Editor</p>
+    </div>
+    <div id="tabs">
+      <button class="tab on" onclick="swTab('assets',this)">📦 Assets</button>
+      <button class="tab" onclick="swTab('props',this)">🔧 Props</button>
+      <button class="tab" onclick="swTab('layers',this)">🗂 Layers</button>
+    </div>
+    <div class="tp on" id="tab-assets">
+      <div id="srch"><input type="text" placeholder="🔍 Search assets…" oninput="filterA(this.value)"></div>
+      <div id="alist"></div>
+      <div id="imp-area">
+        <input type="file" id="fi" accept="image/*" multiple onchange="handleImp(this.files)">
+        <button id="btn-imp" onclick="document.getElementById('fi').click()">+ Import New Assets</button>
+        <div id="imp-st"></div>
+      </div>
+    </div>
+    <div class="tp" id="tab-props">
+      <div id="ns">
+        <div class="ic">🖱️</div>Click a prop on canvas<br>to edit properties
+      </div>
+      <div id="pp" style="display:none">
+        <div class="pg"><label>Layer</label>
+          <div class="lbs">
+            <button class="lb" id="lb-bg" onclick="setLyr('bg')">BG</button>
+            <button class="lb on" id="lb-mid" onclick="setLyr('mid')">Mid</button>
+            <button class="lb" id="lb-fg" onclick="setLyr('fg')">FG</button>
+          </div>
+        </div>
+        <div class="pg"><label>Scale</label>
+          <div class="pr"><input type="range" id="rs" min="0.02" max="6" step="0.01" oninput="onS()"><span class="vb"
+              id="vs">1.00</span></div>
+          <label>Opacity</label>
+          <div class="pr"><input type="range" id="ro" min="0.05" max="1" step="0.01" oninput="onO()"><span class="vb"
+              id="vo">1.00</span></div>
+          <label>Position</label>
+          <div class="pr"><span>X</span><input type="number" id="ix" oninput="onXY()"><span>Y</span><input type="number"
+              id="iy" oninput="onXY()"></div>
+        </div>
+        <div class="pg"><label>Actions</label>
+          <div class="ag">
+            <button class="ab fl" onclick="doFH()">↔ Flip H</button>
+            <button class="ab fl" onclick="doFV()">↕ Flip V</button>
+            <button class="ab cl" onclick="doCl()">📋 Clone</button>
+            <button class="ab dl" onclick="doDel()">🗑 Delete</button>
+            <button class="ab se" onclick="doFrt()">⬆ Front</button>
+            <button class="ab se" onclick="doBk()">⬇ Back</button>
+          </div>
+        </div>
+        <div id="si"></div>
+      </div>
+    </div>
+    <div class="tp" id="tab-layers">
+      <div id="llst">
+        <div class="lr" id="ly-fg" onclick="setAL('fg')">
+          <span class="le" onclick="togLV('fg',event)">👁</span>
+          <span class="ln" style="color:#f59e0b">Foreground (FG)</span>
+          <span class="lc" id="cnt-fg">0</span>
+        </div>
+        <div class="lr" id="ly-mid" onclick="setAL('mid')">
+          <span class="le" onclick="togLV('mid',event)">👁</span>
+          <span class="ln" style="color:#22c55e">Midground (MID)</span>
+          <span class="lc" id="cnt-mid">0</span>
+        </div>
+        <div class="lr" id="ly-bg" onclick="setAL('bg')">
+          <span class="le" onclick="togLV('bg',event)">👁</span>
+          <span class="ln" style="color:#3b82f6">Background (BG)</span>
+          <span class="lc" id="cnt-bg">0</span>
+        </div>
+        <div class="lr"><span class="le">🔒</span><span class="ln" style="color:#64748b">Road (Locked)</span><span
+            class="lc">ref</span></div>
+      </div>
+      <div
+        style="padding:8px 10px;font-size:.62rem;color:var(--mut);background:var(--panel);border-radius:6px;margin:0 10px;line-height:1.8">
+        <b style="color:#94a3b8">Layer Z-Order</b><br>FG = front (player level)<br>Mid = midground<br>BG = background
+        far
+      </div>
+    </div>
+  </div>
+
+  <div id="ww">
+    <canvas id="mc"></canvas>
+    <div id="tb">
+      <button class="tb on" id="t-sel" onclick="setT('sel')">↖ Select</button>
+      <button class="tb" id="t-plc" onclick="setT('plc')">📌 Place</button>
+      <button class="tb" id="t-pan" onclick="setT('pan')">✋ Pan</button>
+    </div>
+    <div id="hb">
+      <b>NAVIGATION</b>Scroll=Zoom<br>Middle/Right drag=Pan<br>Z=Reset View<br>
+      <b>SELECT</b>Click=select<br>Drag=move<br>Corner drag=scale<br>Del=delete<br>
+      <b>PLACE</b>Pick asset → click canvas
+    </div>
+    <div id="gb"><button class="gt on" id="gbtn" onclick="togG()">⊞ Grid ON</button></div>
+    <div id="stat">
+      <span>Zoom:<b id="sz">100%</b></span>
+      <span>World:<b id="sw">0,0</b></span>
+      <span>Props:<b id="sp">0</b></span>
+      <span>Sel:<b id="ss">None</b></span>
+      <span>Layer:<b id="sl">MID</b></span>
+    </div>
+    <div id="bc">
+      <button class="cb dr" onclick="clearAll()">🗑 Clear</button>
+      <button class="cb sc" onclick="resetV()">⟳ Reset View</button>
+      <button class="cb sc" onclick="loadSaved()">📂 Load Props</button>
+      <button class="cb pr" onclick="openExp()">💾 Export JSON</button>
+    </div>
+  </div>
+
+  <div class="ov" id="eov" onclick="closeExp(event)">
+    <div id="em">
+      <h2>Export Environment Config</h2>
+      <p>Copy PROPS_DATA JSON → paste into js/senaro_game.js</p>
+      <textarea id="et" readonly></textarea>
+      <div class="ma">
+        <button class="cb pr" style="flex:1" onclick="copyExp()">📋 Copy</button>
+        <button class="cb sc" onclick="closeExp()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="ov" id="iov">
+    <div id="im">
+      <h2>📦 Import Assets</h2>
+      <p id="idsc"></p>
+      <div id="ipv"></div>
+      <div class="ma">
+        <button class="cb pr" style="flex:1" onclick="confImp()">✅ Add to Library</button>
+        <button class="cb sc" onclick="cancImp()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ── CONFIG ──────────────────────────────────────────────────────
+    const AB = 'assets/';
+    const BS = 0.5; // BLOCK_SCALE from game
+
+    const BD = {
+      flat: { src: 'road/Flat Road.png', w: 428, h: 202, sY: 58, eY: 58 },
+      up: { src: 'road/Uphill Ramp.png', w: 418, h: 240, sY: 151, eY: 65 },
+      down: { src: 'road/Downhill Ramp.png', w: 418, h: 242, sY: 65, eY: 151 },
+      bump: { src: 'road/Rounded Bump.png', w: 358, h: 223, sY: 125, eY: 125 }
+    };
+
+    // Actual game TRACK_DATA
+    const TD = [
+      { "type": "flat", "x": -640, "y": 591 },
+      { "type": "flat", "x": -427, "y": 591 },
+      { "type": "flat", "x": -213, "y": 591 },
+      { "type": "flat", "x": 1, "y": 591 },
+      { "type": "flat", "x": 215, "y": 591 },
+      { "type": "up", "x": 428, "y": 571 },
+      { "type": "down", "x": 637, "y": 571 },
+      { "type": "up", "x": 846, "y": 572 },
+      { "type": "flat", "x": 1054, "y": 571 },
+      { "type": "flat", "x": 1268, "y": 571 },
+      { "type": "up", "x": 1482, "y": 551 },
+      { "type": "up", "x": 1690, "y": 530 },
+      { "type": "bump", "x": 1898, "y": 517 },
+      { "type": "up", "x": 2076, "y": 509 },
+      { "type": "bump", "x": 2284, "y": 496 },
+      { "type": "down", "x": 2463, "y": 508 },
+      { "type": "flat", "x": 2670, "y": 527 },
+      { "type": "up", "x": 2882, "y": 508 },
+      { "type": "bump", "x": 3090, "y": 495 },
+      { "type": "flat", "x": 3268, "y": 507 },
+      { "type": "flat", "x": 3482, "y": 507 },
+      { "type": "flat", "x": 3696, "y": 507 },
+      { "type": "flat", "x": 3910, "y": 507 },
+      { "type": "bump", "x": 4123, "y": 496 },
+      { "type": "down", "x": 4301, "y": 507 },
+      { "type": "down", "x": 4508, "y": 527 },
+      { "type": "down", "x": 4715, "y": 548 },
+      { "type": "down", "x": 4922, "y": 568 },
+      { "type": "bump", "x": 5130, "y": 578 },
+      { "type": "bump", "x": 5309, "y": 577 },
+      { "type": "down", "x": 5486, "y": 589 },
+      { "type": "flat", "x": 5691, "y": 609 },
+      { "type": "flat", "x": 5903, "y": 609 },
+      { "type": "flat", "x": 6117, "y": 609 },
+      { "type": "flat", "x": 6331, "y": 609 },
+      { "type": "up", "x": 6542, "y": 590 },
+      { "type": "up", "x": 6748, "y": 569 },
+      { "type": "up", "x": 6955, "y": 548 },
+      { "type": "bump", "x": 7160, "y": 535 },
+      { "type": "flat", "x": 7337, "y": 546 },
+      { "type": "bump", "x": 7547, "y": 535 },
+      { "type": "flat", "x": 7722, "y": 546 },
+      { "type": "flat", "x": 7936, "y": 546 },
+      { "type": "flat", "x": 8150, "y": 546 },
+      { "type": "flat", "x": 8364, "y": 546 },
+      { "type": "up", "x": 8576, "y": 526 },
+      { "type": "up", "x": 8782, "y": 505 },
+      { "type": "flat", "x": 8985, "y": 504 },
+      { "type": "flat", "x": 9199, "y": 504 },
+      { "type": "flat", "x": 9413, "y": 504 },
+      { "type": "flat", "x": 9627, "y": 504 },
+      { "type": "up", "x": 9837, "y": 484 },
+      { "type": "up", "x": 10044, "y": 463 },
+      { "type": "up", "x": 10248, "y": 442 },
+      { "type": "up", "x": 10451, "y": 421 },
+      { "type": "up", "x": 10657, "y": 400 },
+      { "type": "up", "x": 10861, "y": 379 },
+      { "type": "flat", "x": 11064, "y": 378 },
+      { "type": "flat", "x": 11276, "y": 378 },
+      { "type": "bump", "x": 11485, "y": 367 },
+      { "type": "bump", "x": 11659, "y": 366 },
+      { "type": "flat", "x": 11834, "y": 377 },
+      { "type": "up", "x": 12043, "y": 358 },
+      { "type": "down", "x": 12248, "y": 356 },
+      { "type": "down", "x": 12454, "y": 377 },
+      { "type": "bump", "x": 12659, "y": 386 },
+      { "type": "flat", "x": 12833, "y": 397 },
+      { "type": "down", "x": 13045, "y": 398 },
+      { "type": "bump", "x": 13250, "y": 406 },
+      { "type": "flat", "x": 13426, "y": 417 },
+      { "type": "down", "x": 13635, "y": 418 },
+      { "type": "down", "x": 13841, "y": 438 },
+      { "type": "down", "x": 14045, "y": 459 },
+      { "type": "flat", "x": 14252, "y": 479 },
+      { "type": "flat", "x": 14464, "y": 479 },
+      { "type": "flat", "x": 14678, "y": 479 },
+      { "type": "flat", "x": 14892, "y": 479 },
+      { "type": "bump", "x": 15103, "y": 468 },
+      { "type": "down", "x": 15280, "y": 480 },
+      { "type": "flat", "x": 15486, "y": 500 },
+      { "type": "flat", "x": 15698, "y": 500 },
+      { "type": "bump", "x": 15908, "y": 489 },
+      { "type": "down", "x": 16083, "y": 501 },
+      { "type": "down", "x": 16287, "y": 521 },
+      { "type": "bump", "x": 16493, "y": 530 },
+      { "type": "flat", "x": 16667, "y": 541 },
+      { "type": "flat", "x": 16878, "y": 541 },
+      { "type": "flat", "x": 17092, "y": 541 },
+      { "type": "flat", "x": 17306, "y": 541 },
+      { "type": "up", "x": 17515, "y": 521 },
+      { "type": "down", "x": 17722, "y": 521 },
+      { "type": "flat", "x": 17928, "y": 541 },
+      { "type": "up", "x": 18137, "y": 522 },
+      { "type": "up", "x": 18344, "y": 501 },
+      { "type": "down", "x": 18547, "y": 499 },
+      { "type": "down", "x": 18751, "y": 520 },
+      { "type": "down", "x": 18956, "y": 540 },
+      { "type": "flat", "x": 19162, "y": 560 },
+      { "type": "flat", "x": 19376, "y": 560 },
+      { "type": "flat", "x": 19590, "y": 560 },
+      { "type": "flat", "x": 19804, "y": 560 },
+      { "type": "flat", "x": 20018, "y": 560 },
+      { "type": "up", "x": 20230, "y": 541 }
+    ];
+
+    const AL = {
+      "Nature": [
+        { file: "TREE (1).png", label: "Tree 1" }, { file: "TREE (2).png", label: "Tree 2" },
+        { file: "TREE (3).png", label: "Tree 3" }, { file: "tree w (1).png", label: "Tree W1" },
+        { file: "tree w (2).png", label: "Tree W2" }, { file: "green hill.png", label: "Green Hill" },
+        { file: "hill 2.png", label: "Hill 2" }, { file: "hill.png", label: "Hill 1" },
+        { file: "cave with trees.png", label: "Cave" }, { file: "water fall.png", label: "Waterfall 1" },
+        { file: "water fall 2.png", label: "Waterfall 2" },
+        { file: "nature env/nature-1_0000_Layer-1.png", label: "Nature L1" },
+        { file: "nature env/nature-1_0001_Layer-2.png", label: "Nature L2" },
+        { file: "nature env/nature-1_0002_Layer-3.png", label: "Nature L3" },
+        { file: "nature env/nature-1_0003_Layer-4.png", label: "Nature L4" },
+        { file: "nature env/nature-1_0004_Layer-5.png", label: "Nature L5" },
+        { file: "trees/trees-1_0000_Layer-1.png", label: "Tree 1-1" }, { file: "trees/trees-1_0001_Layer-0.png", label: "Tree 1-0" },
+        { file: "trees/trees-2_0000_Layer-1.png", label: "Tree 2-1" }, { file: "trees/trees-2_0001_Layer-0.png", label: "Tree 2-0" },
+        { file: "trees/trees-3_0000_Layer-1.png", label: "Tree 3-1" }, { file: "trees/trees-3_0001_Layer-0.png", label: "Tree 3-0" },
+        { file: "trees/trees-4_0000_Layer-1.png", label: "Tree 4-1" }, { file: "trees/trees-4_0001_Layer-0.png", label: "Tree 4-0" },
+        { file: "trees/trees-5_0000_Layer-1.png", label: "Tree 5-1" }, { file: "trees/trees-5_0001_Layer-0.png", label: "Tree 5-0" },
+        { file: "trees/trees-6_0000_Layer-1.png", label: "Tree 6-1" }, { file: "trees/trees-6_0001_Layer-0.png", label: "Tree 6-0" }
+      ],
+      "Buildings": [
+        { file: "city.png", label: "City BG" }, { file: "hotel.png", label: "Hotel" },
+        { file: "house 3.png", label: "House" }, { file: "lotus tw.png", label: "Lotus Tower" },
+        { file: "senaro building.png", label: "Senaro Bldg" }, { file: "temple.png", label: "Temple" },
+        { file: "gas sation.png", label: "Gas Station" },
+        { file: "city 1/city 1.png", label: "City 1" },
+        { file: "city 1/city-2_0000_Layer-1.png", label: "City 2 L1" }, { file: "city 1/city-2_0001_Layer-2.png", label: "City 2 L2" },
+        { file: "city 1/city-2_0002_Layer-3.png", label: "City 2 L3" }, { file: "city 1/city-2_0003_Layer-4.png", label: "City 2 L4" },
+        { file: "city 1/city-2_0004_Layer-5.png", label: "City 2 L5" }, { file: "city 1/city-2_0005_Layer-6.png", label: "City 2 L6" },
+        { file: "city 1/city-3-_0000_Layer-1.png", label: "City 3 L1" }, { file: "city 1/city-3-_0001_Layer-2.png", label: "City 3 L2" },
+        { file: "city 1/city-3-_0002_Layer-3.png", label: "City 3 L3" },
+        { file: "city 1/city-4_0000_Layer-1.png", label: "City 4 L1" }, { file: "city 1/city-4_0001_Layer-2.png", label: "City 4 L2" },
+        { file: "city 1/city-4_0002_Layer-3.png", label: "City 4 L3" },
+        { file: "Fuel man/fuel man.png", label: "Fuel Man" },
+        { file: "Fuel man/fuel shed 1.png", label: "Shed 1" }, { file: "Fuel man/fuel shed  2.png", label: "Shed 2" }
+      ],
+      "Landmarks": [
+        { file: "kandy.png", label: "Kandy" }, { file: "sigiriya.png", label: "Sigiriya" },
+        { file: "femus/dalanda maligawa.png", label: "Dalada Maligawa" }
+      ],
+      "Props": [
+        { file: "Fence.png", label: "Fence" }, { file: "color light.png", label: "Color Light" },
+        { file: "sun- inner.png", label: "Sun Inner" }, { file: "sun-outer .png", label: "Sun Outer" },
+        { file: "bill board/b board 1.png", label: "B-Board 1" }, { file: "bill board/b board  2.png", label: "B-Board 2" },
+        { file: "bill board/b board  3.png", label: "B-Board 3" }, { file: "bill board/b board 4.png", label: "B-Board 4" },
+        { file: "bill board/b board 5.png", label: "B-Board 5" }, { file: "bill board/b board 6.png", label: "B-Board 6" }
+      ],
+      "Shops": [
+        { file: "shop/shop 1.png", label: "Shop 1" }, { file: "shop/shop 2.png", label: "Shop 2" }, { file: "shop/shop 3.png", label: "Shop 3" }
+      ],
+      "Village": [
+        { file: "v house/village-house_0000_Layer-1.png", label: "V-House 1-1" },
+        { file: "v house/village-house_0001_Layer-2.png", label: "V-House 1-2" },
+        { file: "v house/village-house_0002_Layer-0.png", label: "V-House 1-0" },
+        { file: "v house/village-house-2_0000_Layer-1.png", label: "V-House 2-1" },
+        { file: "v house/village-house-2_0001_Layer-2.png", label: "V-House 2-2" },
+        { file: "v house/village-house-3_0000_Layer-1.png", label: "V-House 3-1" },
+        { file: "v house/village-house-3_0001_Layer-2.png", label: "V-House 3-2" }
+      ],
+      "Sky": [
+        { file: "sky cloud/sky cloud 1.png", label: "Cloud 1" },
+        { file: "sky cloud/sky cloud 2.png", label: "Cloud 2" },
+        { file: "sky cloud/sky cloud  3.png", label: "Cloud 3" }
+      ]
+    };
+
+
+    // ── STATE ──────────────────────────────────────────────────────
+    const cv = document.getElementById('mc');
+    const ctx = cv.getContext('2d');
+    let cam = { x: -200, y: 200, zoom: 0.10 };
+    let tool = 'sel';
+    let props = [];
+    let sel = null;
+    let drag = null, pan = false, panS = {};
+    let mw = { x: 0, y: 0 };
+    let showG = true;
+    let actL = 'mid';
+    let lv = { fg: true, mid: true, bg: true };
+    let selAsset = null;
+    let custA = [];
+    let pf = [];
+    let pid = 0;
+    let resizing = null; // {prop, corner, startW, startH, startX, startY, origScale}
+    const HSIZE = 10; // handle size in world px
+
+    // Road images
+    const rImg = {};
+    for (const [k, d] of Object.entries(BD)) {
+      rImg[k] = new Image();
+      rImg[k].src = AB + d.src;
+      rImg[k].onload = () => render();
+    }
+
+    // Reference Bike Assets
+    const bi = {};
+    const BAL = {
+      body: 'bike/SVG/body.svg',
+      ft: 'bike/SVG/front%20tyre.svg',
+      bt: 'bike/SVG/back%20tyre.svg',
+      rider: 'RIDER.png'
+    };
+    for (const [k, f] of Object.entries(BAL)) {
+      bi[k] = new Image();
+      bi[k].src = AB + f;
+      bi[k].onload = () => render();
+    }
+
+
+    // ── COORD ──────────────────────────────────────────────────────
+    function tw(sx, sy) { return { x: sx / cam.zoom + cam.x, y: sy / cam.zoom + cam.y } }
+    function ts(wx, wy) { return { x: (wx - cam.x) * cam.zoom, y: (wy - cam.y) * cam.zoom } }
+    function gxy(e) { const r = cv.getBoundingClientRect(); return { sx: e.clientX - r.left, sy: e.clientY - r.top } }
+    function resize() { cv.width = cv.offsetWidth; cv.height = cv.offsetHeight; render() }
+    window.addEventListener('resize', resize);
+
+    // ── RENDER ─────────────────────────────────────────────────────
+    function render() {
+      const W = cv.width, H = cv.height;
+      ctx.clearRect(0, 0, W, H);
+      const g = ctx.createLinearGradient(0, 0, 0, H);
+      g.addColorStop(0, '#0a1628'); g.addColorStop(1, '#05080f');
+      ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+      ctx.save();
+      ctx.translate(-cam.x * cam.zoom, -cam.y * cam.zoom);
+      ctx.scale(cam.zoom, cam.zoom);
+      const vL = cam.x, vR = cam.x + W / cam.zoom, vT = cam.y, vB = cam.y + H / cam.zoom;
+
+      // Grid
+      if (showG) {
+        ctx.strokeStyle = 'rgba(255,255,255,.025)'; ctx.lineWidth = 1 / cam.zoom;
+        const gs = 200;
+        for (let x = Math.floor(vL / gs) * gs; x < vR; x += gs) { ctx.beginPath(); ctx.moveTo(x, vT); ctx.lineTo(x, vB); ctx.stroke() }
+        for (let y = Math.floor(vT / gs) * gs; y < vB; y += gs) { ctx.beginPath(); ctx.moveTo(vL, y); ctx.lineTo(vR, y); ctx.stroke() }
+        // Horizon line
+        ctx.strokeStyle = 'rgba(59,130,246,.25)'; ctx.lineWidth = 1.5 / cam.zoom;
+        ctx.setLineDash([8 / cam.zoom, 8 / cam.zoom]);
+        ctx.beginPath(); ctx.moveTo(vL, 400); ctx.lineTo(vR, 400); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = 'rgba(59,130,246,.5)'; ctx.font = `${10 / cam.zoom}px Outfit`;
+        ctx.fillText('HORIZON', vL + 15 / cam.zoom, 394 - 4 / cam.zoom);
+      }
+
+      // Km ruler
+      ctx.textAlign = 'center';
+      for (let x = 0; x <= 21000; x += 1000) {
+        const km = x / 1000;
+        const maj = km % 5 === 0;
+        ctx.strokeStyle = maj ? 'rgba(251,191,36,.45)' : 'rgba(51,65,85,.5)';
+        ctx.lineWidth = (maj ? 2 : 1) / cam.zoom;
+        ctx.beginPath(); ctx.moveTo(x, vT); ctx.lineTo(x, vT + 35 / cam.zoom); ctx.stroke();
+        ctx.fillStyle = maj ? 'rgba(251,191,36,.8)' : 'rgba(71,85,105,.7)';
+        ctx.font = `bold ${10 / cam.zoom}px Outfit`;
+        ctx.fillText(km + 'km', x, vT + 48 / cam.zoom);
+      }
+
+      // BG props
+      if (lv.bg) drawLayer('bg', vL, vR, vT, vB);
+
+      // Road blocks
+      for (const b of TD) {
+        const d = BD[b.type];
+        const bw = d.w * BS, bh = d.h * BS;
+        if (b.x + bw < vL || b.x > vR) continue;
+        ctx.globalAlpha = 0.7;
+        const im = rImg[b.type];
+        if (im.complete && im.naturalWidth) ctx.drawImage(im, b.x, b.y, bw, bh);
+        else { ctx.fillStyle = '#1e3a5f'; ctx.fillRect(b.x, b.y, bw, bh) }
+        ctx.globalAlpha = 1;
+      }
+
+      // Physics path (TRACK_POINTS approximation - draw road surface line)
+      ctx.strokeStyle = 'rgba(34,197,94,.35)'; ctx.lineWidth = 3 / cam.zoom;
+      ctx.beginPath();
+      let started = false;
+      for (const b of TD) {
+        const d = BD[b.type];
+        const bw = d.w * BS;
+        const sy = b.y + d.sY * BS, ey = b.y + d.eY * BS;
+        if (!started) { ctx.moveTo(b.x, b.y + d.sY * BS); started = true }
+        ctx.lineTo(b.x + bw, ey);
+      }
+      ctx.stroke();
+
+      // Mid + FG
+      if (lv.mid) drawLayer('mid', vL, vR, vT, vB);
+      if (lv.fg) drawLayer('fg', vL, vR, vT, vB);
+
+      // Reference Bike & Dialogue
+      drawRefBike(ctx);
+
+
+      // Draw resize handles for selected prop
+      if (sel && sel.img && sel.img.complete) {
+        const pw = sel.img.naturalWidth * sel.scale;
+        const ph = sel.img.naturalHeight * sel.scale;
+        // corners in world
+        const corners = [[sel.x, sel.y], [sel.x + pw, sel.y], [sel.x, sel.y + ph], [sel.x + pw, sel.y + ph]];
+        const hs = HSIZE / cam.zoom;
+        ctx.fillStyle = '#fbbf24';
+        corners.forEach(([cx, cy]) => {
+          ctx.fillRect(cx - hs / 2, cy - hs / 2, hs, hs);
+        });
+      }
+
+      ctx.restore();
+
+      // Status
+      document.getElementById('sz').textContent = Math.round(cam.zoom * 100) + '%';
+      document.getElementById('sw').textContent = Math.round(mw.x) + ',' + Math.round(mw.y);
+      document.getElementById('sp').textContent = props.length;
+      document.getElementById('ss').textContent = sel ? sel.label : 'None';
+      document.getElementById('sl').textContent = actL.toUpperCase();
+      document.getElementById('cnt-fg').textContent = props.filter(p => p.layer === 'fg').length;
+      document.getElementById('cnt-mid').textContent = props.filter(p => p.layer === 'mid').length;
+      document.getElementById('cnt-bg').textContent = props.filter(p => p.layer === 'bg').length;
+    }
+
+    function drawLayer(layer, vL, vR, vT, vB) {
+      const lp = props.filter(p => p.layer === layer);
+      for (const p of lp) {
+        if (!p.img || !p.img.complete || !p.img.naturalWidth) continue;
+        const pw = p.img.naturalWidth * p.scale, ph = p.img.naturalHeight * p.scale;
+        if (p.x + pw < vL || p.x > vR || p.y + ph < vT || p.y > vB) continue;
+        ctx.save();
+        ctx.globalAlpha = p.opacity || 1;
+        ctx.translate(p.x + pw / 2, p.y + ph / 2);
+        ctx.scale(p.flipH ? -1 : 1, p.flipV ? -1 : 1);
+        ctx.drawImage(p.img, -pw / 2, -ph / 2, pw, ph);
+        ctx.restore();
+        // Selection box
+        if (p === sel) {
+          ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 2 / cam.zoom;
+          ctx.setLineDash([5 / cam.zoom, 3 / cam.zoom]);
+          ctx.strokeRect(p.x - 2 / cam.zoom, p.y - 2 / cam.zoom, pw + 4 / cam.zoom, ph + 4 / cam.zoom);
+          ctx.setLineDash([]);
+          // Label
+          ctx.fillStyle = 'rgba(251,191,36,.9)'; ctx.font = `bold ${10 / cam.zoom}px Outfit`;
+          ctx.textAlign = 'left'; ctx.fillText(p.label, p.x, p.y - 5 / cam.zoom);
+        }
+      }
+    }
+
+    function drawRefBike(ctx) {
+      const bx = 100, by = 545; // Approx ground position
+      const sc = 0.8;
+      ctx.save();
+      ctx.globalAlpha = 0.5; // Faint reference
+
+      // Wheels
+      const wr = 50 * sc;
+      const drawW = (img, x, y) => { if (img.complete) ctx.drawImage(img, x - wr, y - wr, wr * 2, wr * 2); };
+      drawW(bi.bt, bx - 73 * sc, by - wr);
+      drawW(bi.ft, bx + 73 * sc, by - wr);
+
+      // Body
+      if (bi.body.complete) ctx.drawImage(bi.body, bx - 120 * sc, by - 115 * sc - 12 * sc, 225 * sc, 130 * sc);
+
+      // Rider
+      if (bi.rider.complete) ctx.drawImage(bi.rider, bx - 30 * sc - 18 * sc, by - 152 * sc - 12 * sc - 2 * sc, 80 * sc, 175 * sc);
+
+      ctx.restore();
+
+      // Dialogue Bubble
+      drawBubble(ctx, bx, by - 260, "ලීටර් 1ක් ගහන්න, bro!", "thinking");
+    }
+
+    function drawBubble(ctx, x, y, text, type) {
+      ctx.save();
+      ctx.font = 'bold 20px Outfit';
+      const w = ctx.measureText(text).width + 30;
+      const h = 45;
+      const bx = x - w / 2, by = y - h;
+
+      ctx.fillStyle = 'rgba(255,255,255,0.7)';
+      ctx.strokeStyle = '#000';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.roundRect(bx, by, w, h, 15);
+      ctx.fill(); ctx.stroke();
+
+      // Tail
+      ctx.beginPath();
+      if (type === 'thinking') {
+        ctx.arc(x - 20, by + h + 10, 5, 0, Math.PI * 2);
+        ctx.arc(x - 35, by + h + 25, 3, 0, Math.PI * 2);
+      } else {
+        ctx.moveTo(x, by + h); ctx.lineTo(x + 10, by + h + 15); ctx.lineTo(x + 20, by + h);
+      }
+      ctx.fill(); ctx.stroke();
+
+      ctx.fillStyle = '#000';
+      ctx.textAlign = 'center';
+      ctx.fillText(text, x, by + 30);
+      ctx.restore();
+    }
+
+
+    // ── HIT TEST ───────────────────────────────────────────────────
+    function hitProp(wx, wy) {
+      for (let i = props.length - 1; i >= 0; i--) {
+        const p = props[i];
+        if (!p.img) continue;
+        const pw = p.img.naturalWidth * p.scale, ph = p.img.naturalHeight * p.scale;
+        if (wx >= p.x && wx <= p.x + pw && wy >= p.y && wy <= p.y + ph) return p;
+      }
+      return null;
+    }
+
+    function hitHandle(wx, wy, p) {
+      if (!p || !p.img) return null;
+      const pw = p.img.naturalWidth * p.scale, ph = p.img.naturalHeight * p.scale;
+      const hs = HSIZE / cam.zoom;
+      const corners = [
+        { cx: p.x, cy: p.y, id: 'tl' },
+        { cx: p.x + pw, cy: p.y, id: 'tr' },
+        { cx: p.x, cy: p.y + ph, id: 'bl' },
+        { cx: p.x + pw, cy: p.y + ph, id: 'br' }
+      ];
+      for (const c of corners) {
+        if (Math.abs(wx - c.cx) < hs && Math.abs(wy - c.cy) < hs) return c.id;
+      }
+      return null;
+    }
+
+    // ── CANVAS EVENTS ──────────────────────────────────────────────
+    cv.addEventListener('mousedown', e => {
+      const { sx, sy } = gxy(e);
+      const w = tw(sx, sy);
+      if (e.button === 1 || e.button === 2) { e.preventDefault(); pan = true; panS = { mx: e.clientX, my: e.clientY, cx: cam.x, cy: cam.y }; return }
+      if (tool === 'pan') { pan = true; panS = { mx: e.clientX, my: e.clientY, cx: cam.x, cy: cam.y }; return }
+      if (e.button !== 0) return;
+
+      if (tool === 'plc') {
+        if (selAsset) addProp(selAsset, w.x, w.y);
+        return;
+      }
+
+      // Select mode: first check handles on selected
+      if (sel) {
+        const hid = hitHandle(w.x, w.y, sel);
+        if (hid) {
+          const pw = sel.img.naturalWidth * sel.scale, ph = sel.img.naturalHeight * sel.scale;
+          resizing = {
+            prop: sel, corner: hid, startMX: w.x, startMY: w.y, origScale: sel.scale,
+            origX: sel.x, origY: sel.y, origW: pw, origH: ph,
+            baseW: sel.img.naturalWidth, baseH: sel.img.naturalHeight
+          };
+          return;
+        }
+      }
+
+      const hit = hitProp(w.x, w.y);
+      selProp(hit);
+      if (hit) {
+        drag = { prop: hit, offX: w.x - hit.x, offY: w.y - hit.y };
+      }
+    });
+
+    cv.addEventListener('mousemove', e => {
+      const { sx, sy } = gxy(e);
+      mw = tw(sx, sy);
+      if (pan) {
+        cam.x = panS.cx - (e.clientX - panS.mx) / cam.zoom;
+        cam.y = panS.cy - (e.clientY - panS.my) / cam.zoom;
+        render(); return;
+      }
+      if (resizing) {
+        const r = resizing;
+        const dx = mw.x - r.startMX, dy = mw.y - r.startMY;
+        // Scale based on corner being dragged
+        let newScale = r.origScale;
+        if (r.corner === 'br') { newScale = Math.max(0.02, r.origScale + (dx / r.baseW * 1.5)) }
+        else if (r.corner === 'bl') { newScale = Math.max(0.02, r.origScale + (-dx / r.baseW * 1.5)); r.prop.x = r.origX + dx }
+        else if (r.corner === 'tr') { newScale = Math.max(0.02, r.origScale + (dx / r.baseW * 1.5)); r.prop.y = r.origY + dy }
+        else if (r.corner === 'tl') { newScale = Math.max(0.02, r.origScale + (-dx / r.baseW * 1.5)); r.prop.x = r.origX + dx; r.prop.y = r.origY + dy }
+        r.prop.scale = newScale;
+        updPP(); render(); return;
+      }
+      if (drag) {
+        drag.prop.x = mw.x - drag.offX;
+        drag.prop.y = mw.y - drag.offY;
+        updPP(); render(); return;
+      }
+      // Cursor update
+      if (tool === 'sel' && sel) {
+        const hid = hitHandle(mw.x, mw.y, sel);
+        cv.style.cursor = hid ? 'nwse-resize' : 'crosshair';
+      }
+      render();
+    });
+
+    cv.addEventListener('mouseup', () => { drag = null; pan = false; resizing = null });
+    cv.addEventListener('contextmenu', e => e.preventDefault());
+
+    cv.addEventListener('wheel', e => {
+      e.preventDefault();
+      const { sx, sy } = gxy(e);
+      const wb = tw(sx, sy);
+      cam.zoom = Math.max(0.03, Math.min(4, cam.zoom * (e.deltaY < 0 ? 1.12 : 0.9)));
+      const wa = tw(sx, sy);
+      cam.x += wb.x - wa.x; cam.y += wb.y - wa.y;
+      render();
+    }, { passive: false });
+
+    document.addEventListener('keydown', e => {
+      if ((e.key === 'Delete' || e.key === 'Backspace') && (document.activeElement === document.body || document.activeElement === cv)) doDel();
+      if (e.key === 'Escape') selProp(null);
+      if (e.key === 'z' || e.key === 'Z') resetV();
+    });
+
+    // ── PROP MANAGEMENT ────────────────────────────────────────────
+    function addProp(ad, wx, wy, opts = {}) {
+      const img = new Image();
+      img.src = ad.custom ? ad.dataUrl : AB + ad.file;
+      const p = {
+        id: 'p' + (++pid), file: ad.file, label: ad.label,
+        layer: opts.layer || actL,
+        x: wx, y: wy,
+        scale: opts.scale || 0.5,
+        opacity: opts.opacity !== undefined ? opts.opacity : 1,
+        flipH: opts.flipH || false, flipV: opts.flipV || false,
+        custom: !!ad.custom, dataUrl: ad.dataUrl || null, img
+      };
+      img.onload = () => render();
+      props.push(p);
+      selProp(p);
+      render(); return p;
+    }
+
+    function selProp(p) {
+      sel = p; updPP();
+      swTab('props', document.querySelectorAll('.tab')[1]);
+      render();
+    }
+
+    function updPP() {
+      const pp = document.getElementById('pp'), ns = document.getElementById('ns');
+      if (!sel) { pp.style.display = 'none'; ns.style.display = 'block'; return }
+      pp.style.display = 'block'; ns.style.display = 'none';
+      document.getElementById('rs').value = sel.scale;
+      document.getElementById('vs').textContent = sel.scale.toFixed(2);
+      document.getElementById('ro').value = sel.opacity || 1;
+      document.getElementById('vo').textContent = (sel.opacity || 1).toFixed(2);
+      document.getElementById('ix').value = Math.round(sel.x);
+      document.getElementById('iy').value = Math.round(sel.y);
+      ['bg', 'mid', 'fg'].forEach(l => {
+        document.getElementById('lb-' + l).className = 'lb' + (sel.layer === l ? ' on' : '');
+      });
+      const pw = sel.img ? Math.round(sel.img.naturalWidth * sel.scale) : 0;
+      const ph = sel.img ? Math.round(sel.img.naturalHeight * sel.scale) : 0;
+      document.getElementById('si').innerHTML = `📄 ${sel.label}<br>📐 ${pw}×${ph}px<br>🗂 ${sel.layer.toUpperCase()}`;
+    }
+
+    function onS() { if (!sel) return; sel.scale = parseFloat(document.getElementById('rs').value); document.getElementById('vs').textContent = sel.scale.toFixed(2); updPP(); render() }
+    function onO() { if (!sel) return; sel.opacity = parseFloat(document.getElementById('ro').value); document.getElementById('vo').textContent = sel.opacity.toFixed(2); render() }
+    function onXY() { if (!sel) return; sel.x = parseFloat(document.getElementById('ix').value) || 0; sel.y = parseFloat(document.getElementById('iy').value) || 0; render() }
+    function setLyr(l) { if (!sel) return; sel.layer = l; updPP(); render() }
+    function doFH() { if (!sel) return; sel.flipH = !sel.flipH; render() }
+    function doFV() { if (!sel) return; sel.flipV = !sel.flipV; render() }
+    function doDel() { if (!sel) return; props = props.filter(p => p !== sel); selProp(null) }
+    function doCl() { if (!sel) return; const s = sel; const ad = s.custom ? { file: s.file, label: s.label, custom: true, dataUrl: s.dataUrl } : { file: s.file, label: s.label }; addProp(ad, s.x + 50, s.y + 40, { scale: s.scale, opacity: s.opacity, flipH: s.flipH, flipV: s.flipV, layer: s.layer }) }
+    function doFrt() { if (!sel) return; const i = props.indexOf(sel); if (i < props.length - 1) { props.splice(i, 1); props.push(sel); render() } }
+    function doBk() { if (!sel) return; const i = props.indexOf(sel); if (i > 0) { props.splice(i, 1); props.unshift(sel); render() } }
+    function clearAll() { if (!confirm('Clear all props?')) return; props = []; selProp(null); render() }
+
+    // ── LOAD SAVED ─────────────────────────────────────────────────
+    function loadSaved() {
+      if (props.length > 0 && !confirm('Replace current props with saved game data?')) return;
+      props = []; pid = 0;
+      SAVED_PROPS.forEach(p => {
+        const allAssets = [...Object.values(AL).flat(), ...custA];
+        const ad = allAssets.find(a => a.file === p.asset) || { file: p.asset, label: p.asset.replace(/\.png$/i, '').replace(/[-_]/g, ' ') };
+        addProp(ad, p.x, p.y, { scale: p.scale, opacity: p.opacity !== undefined ? p.opacity : 1, flipH: p.flipH || p.flip || false, flipV: p.flipV || false, layer: p.layer || 'mid' });
+      });
+      selProp(null);
+      // Fit view to start of road
+      cam = { x: -500, y: -100, zoom: 0.12 };
+      render();
+    }
+
+    // ── ASSET LIBRARY ──────────────────────────────────────────────
+    function buildAL() {
+      const c = document.getElementById('alist'); c.innerHTML = '';
+      for (const [cat, items] of Object.entries(AL)) {
+        const lb = document.createElement('div'); lb.className = 'cat-lbl'; lb.textContent = cat; c.appendChild(lb);
+        const g = document.createElement('div'); g.className = 'agrid';
+        items.forEach(a => g.appendChild(mkCard(a)));
+        c.appendChild(g);
+      }
+      if (custA.length) {
+        const lb = document.createElement('div'); lb.className = 'cat-lbl'; lb.textContent = 'Imported'; c.appendChild(lb);
+        const g = document.createElement('div'); g.className = 'agrid';
+        custA.forEach(a => g.appendChild(mkCard(a))); c.appendChild(g);
+      }
+    }
+
+    function mkCard(ad) {
+      const d = document.createElement('div'); d.className = 'acard'; d.title = ad.label;
+      const img = document.createElement('img'); img.src = ad.custom ? ad.dataUrl : AB + ad.file; img.alt = ad.label;
+      const sp = document.createElement('span'); sp.textContent = ad.label;
+      d.appendChild(img); d.appendChild(sp);
+      d.onclick = () => {
+        document.querySelectorAll('.acard').forEach(c => c.classList.remove('sel'));
+        d.classList.add('sel'); selAsset = ad; setT('plc');
+        document.getElementById('imp-st').textContent = '';
+      };
+      return d;
+    }
+
+    function filterA(q) {
+      if (!q) { buildAL(); return }
+      const c = document.getElementById('alist'); c.innerHTML = '';
+      const all = [...Object.values(AL).flat(), ...custA];
+      const found = all.filter(a => a.label.toLowerCase().includes(q.toLowerCase()) || a.file.toLowerCase().includes(q.toLowerCase()));
+      if (!found.length) { c.innerHTML = '<div style="padding:20px;text-align:center;color:var(--mut);font-size:.75rem">No results</div>'; return }
+      const lb = document.createElement('div'); lb.className = 'cat-lbl'; lb.textContent = `Results (${found.length})`; c.appendChild(lb);
+      const g = document.createElement('div'); g.className = 'agrid';
+      found.forEach(a => g.appendChild(mkCard(a))); c.appendChild(g);
+    }
+
+    // ── IMPORT ─────────────────────────────────────────────────────
+    function handleImp(files) {
+      if (!files || !files.length) return;
+      pf = Array.from(files);
+      const pv = document.getElementById('ipv'); pv.innerHTML = '';
+      document.getElementById('idsc').textContent = `${pf.length} file(s) ready:`;
+      pf.forEach(f => {
+        const r = new FileReader();
+        r.onload = ev => {
+          const dv = document.createElement('div'); dv.className = 'it';
+          const im = document.createElement('img'); im.src = ev.target.result;
+          const sp = document.createElement('span'); sp.textContent = f.name;
+          dv.appendChild(im); dv.appendChild(sp); pv.appendChild(dv);
+        }; r.readAsDataURL(f);
+      });
+      document.getElementById('iov').classList.add('show');
+      document.getElementById('fi').value = '';
+    }
+
+    function confImp() {
+      let done = 0;
+      pf.forEach(f => {
+        const r = new FileReader();
+        r.onload = ev => {
+          custA.push({ file: f.name, label: f.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' '), custom: true, dataUrl: ev.target.result });
+          done++; if (done === pf.length) { buildAL(); cancImp(); const n = pf.length; document.getElementById('imp-st').textContent = `✅ ${n} added!`; setTimeout(() => document.getElementById('imp-st').textContent = '', 4000) }
+        }; r.readAsDataURL(f);
+      });
+    }
+    function cancImp() { document.getElementById('iov').classList.remove('show'); pf = [] }
+
+    // ── EXPORT ─────────────────────────────────────────────────────
+    function openExp() {
+      const data = props.map(p => ({
+        asset: p.file, label: p.label, layer: p.layer,
+        x: Math.round(p.x), y: Math.round(p.y),
+        scale: +p.scale.toFixed(3), opacity: +(p.opacity || 1).toFixed(2),
+        flipH: p.flipH, flipV: p.flipV
+      }));
+      document.getElementById('et').value = `// PROPS_DATA — Generated ${new Date().toLocaleString()}\nconst PROPS_DATA = ${JSON.stringify(data, null, 2)};`;
+      document.getElementById('eov').classList.add('show');
+    }
+    function closeExp(e) { if (!e || e.target === document.getElementById('eov')) document.getElementById('eov').classList.remove('show') }
+    function copyExp() { const ta = document.getElementById('et'); ta.select(); document.execCommand('copy'); const b = event.target; b.textContent = '✅ Copied!'; setTimeout(() => b.textContent = '📋 Copy', 2000) }
+
+    // ── TOOLS & UI ─────────────────────────────────────────────────
+    function setT(t) {
+      tool = t;
+      ['sel', 'plc', 'pan'].forEach(n => document.getElementById('t-' + n).className = 'tb' + (t === n ? ' on' : ''));
+      cv.style.cursor = t === 'pan' ? 'grab' : t === 'plc' ? 'cell' : 'crosshair';
+      if (t !== 'plc') selAsset = null;
+    }
+
+    function swTab(name, btnEl) {
+      const tabs = ['assets', 'props', 'layers'];
+      document.querySelectorAll('.tab').forEach((b, i) => {
+        b.className = 'tab' + (tabs[i] === name ? ' on' : '');
+        document.getElementById('tab-' + tabs[i]).className = 'tp' + (tabs[i] === name ? ' on' : '');
+      });
+    }
+
+    function togG() {
+      showG = !showG;
+      const b = document.getElementById('gbtn');
+      b.textContent = showG ? '⊞ Grid ON' : '⊞ Grid OFF';
+      b.className = 'gt' + (showG ? ' on' : '');
+      render();
+    }
+
+    function togLV(l, e) {
+      e.stopPropagation(); lv[l] = !lv[l];
+      e.target.textContent = lv[l] ? '👁' : '🚫'; render();
+    }
+
+    function setAL(l) {
+      actL = l; document.getElementById('sl').textContent = l.toUpperCase();
+      ['bg', 'mid', 'fg'].forEach(id => {
+        document.getElementById('ly-' + id).style.borderColor = id === l ? 'var(--acc)' : 'var(--brd)';
+      });
+    }
+
+    function resetV() {
+      const canvH = cv.height || 800;
+      // Road Y is ~400-700, center viewport there
+      cam = { x: -200, y: 400 - (canvH / 2 / 0.10), zoom: 0.10 };
+      render();
+    }
+    // ── INIT ───────────────────────────────────────────────────────
+    buildAL();
+    resize();
+    setAL('mid');
+    loadSaved();
+  </script>
+</body>
+
+</html>
