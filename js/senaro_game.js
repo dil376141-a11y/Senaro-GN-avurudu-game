@@ -793,7 +793,7 @@ class Bike {
   static get VWR() { return 45; }          // visual wheel radius
 
   constructor(x, y, terrain) {
-    this._x = x; this._y = y; this.terrain = terrain;
+    this._x = x; this._y = y; this._terrain = terrain;
     this.gas = 0; this.brake = false; this.autoDrive = false;
     this._lastY = y;
     this._vy = 0;
@@ -832,6 +832,7 @@ class Bike {
 
     if (isFwd && (this.fuel > 0 || this._spd > 0.1)) {
       this._spd = Math.min(this._spd + (this.autoDrive ? C.BIKE_ACCEL * 0.5 : C.BIKE_ACCEL), this.autoDrive ? 5 : C.BIKE_MAX);
+      if (this.autoDrive) console.log(`AUTO_DRIVE: spd=${this._spd.toFixed(2)} fuel=${this.fuel.toFixed(2)} x=${this._x.toFixed(0)}`);
     }
     else if (isBwd) { this._spd = Math.max(this._spd - C.BIKE_BRAKE, -C.BIKE_MAX * .35); }
     else { this._spd *= (1 - C.BIKE_FRIC); if (Math.abs(this._spd) < .03) this._spd = 0; }
@@ -951,8 +952,8 @@ const PROPS_DATA = [
     "asset": "tree w (2).png",
     "label": "Tree W2",
     "layer": "bg",
-    "x": 9456,
-    "y": 202,
+    "x": 9455,
+    "y": 69,
     "scale": 0.142,
     "opacity": 1,
     "flipH": true,
@@ -962,8 +963,8 @@ const PROPS_DATA = [
     "asset": "city 1/city-3-_0000_Layer-1.png",
     "label": "City 3 L1",
     "layer": "bg",
-    "x": 9471,
-    "y": 319,
+    "x": 9472,
+    "y": 218,
     "scale": 0.421,
     "opacity": 1,
     "flipH": false,
@@ -1006,8 +1007,8 @@ const PROPS_DATA = [
     "asset": "trees/trees-2_0000_Layer-1.png",
     "label": "Tree 2-1",
     "layer": "bg",
-    "x": 8686,
-    "y": 152,
+    "x": 8687,
+    "y": 109,
     "scale": 0.866,
     "opacity": 1,
     "flipH": false,
@@ -1017,8 +1018,8 @@ const PROPS_DATA = [
     "asset": "sigiriya.png",
     "label": "sigiriya",
     "layer": "bg",
-    "x": 7808,
-    "y": 176,
+    "x": 7813,
+    "y": 100,
     "scale": 0.946,
     "opacity": 1,
     "flipH": false,
@@ -1050,8 +1051,8 @@ const PROPS_DATA = [
     "asset": "hill.png",
     "label": "Hill 1",
     "layer": "bg",
-    "x": 6379,
-    "y": 228,
+    "x": 6380,
+    "y": 190,
     "scale": 0.188,
     "opacity": 1,
     "flipH": false,
@@ -1622,8 +1623,8 @@ const PROPS_DATA = [
     "asset": "shop/shop 3.png",
     "label": "Shop 3",
     "layer": "bg",
-    "x": 6684,
-    "y": 390,
+    "x": 6676,
+    "y": 367,
     "scale": 0.51,
     "opacity": 1,
     "flipH": false,
@@ -1633,8 +1634,8 @@ const PROPS_DATA = [
     "asset": "bill board/b board 1.png",
     "label": "B-Board 1",
     "layer": "bg",
-    "x": 6960,
-    "y": 373,
+    "x": 6957,
+    "y": 364,
     "scale": 0.371,
     "opacity": 1,
     "flipH": false,
@@ -1644,8 +1645,8 @@ const PROPS_DATA = [
     "asset": "trees/trees-6_0000_Layer-1.png",
     "label": "Tree 6-1",
     "layer": "bg",
-    "x": 7140,
-    "y": 319,
+    "x": 7137,
+    "y": 299,
     "scale": 0.5,
     "opacity": 1,
     "flipH": false,
@@ -1655,8 +1656,8 @@ const PROPS_DATA = [
     "asset": "trees/trees-6_0000_Layer-1.png",
     "label": "Tree 6-1",
     "layer": "bg",
-    "x": 7195,
-    "y": 387,
+    "x": 7200,
+    "y": 352,
     "scale": 0.367,
     "opacity": 1,
     "flipH": false,
@@ -1666,8 +1667,8 @@ const PROPS_DATA = [
     "asset": "Fuel man/fuel shed 1.png",
     "label": "Shed 1",
     "layer": "bg",
-    "x": 7277,
-    "y": 389,
+    "x": 7278,
+    "y": 368,
     "scale": 0.5,
     "opacity": 1,
     "flipH": false,
@@ -1700,7 +1701,7 @@ const PROPS_DATA = [
     "label": "Tree W2",
     "layer": "bg",
     "x": 7597,
-    "y": 225,
+    "y": 206,
     "scale": 0.159,
     "opacity": 1,
     "flipH": false,
@@ -1721,8 +1722,8 @@ const PROPS_DATA = [
     "asset": "bill board/b board 4.png",
     "label": "B-Board 4",
     "layer": "bg",
-    "x": 8348,
-    "y": 303,
+    "x": 8350,
+    "y": 271,
     "scale": 0.41,
     "opacity": 1,
     "flipH": false,
@@ -1733,7 +1734,7 @@ const PROPS_DATA = [
     "label": "Nature L5",
     "layer": "bg",
     "x": 8180,
-    "y": 479,
+    "y": 455,
     "scale": 0.191,
     "opacity": 1,
     "flipH": false,
@@ -1743,8 +1744,8 @@ const PROPS_DATA = [
     "asset": "nature env/nature-1_0002_Layer-3.png",
     "label": "Nature L3",
     "layer": "bg",
-    "x": 7746,
-    "y": 449,
+    "x": 7745,
+    "y": 413,
     "scale": 0.339,
     "opacity": 1,
     "flipH": false,
@@ -1754,8 +1755,8 @@ const PROPS_DATA = [
     "asset": "trees/trees-2_0001_Layer-0.png",
     "label": "Tree 2-0",
     "layer": "bg",
-    "x": 7861,
-    "y": 495,
+    "x": 7860,
+    "y": 477,
     "scale": 0.211,
     "opacity": 1,
     "flipH": false,
@@ -1765,8 +1766,8 @@ const PROPS_DATA = [
     "asset": "trees/trees-3_0000_Layer-1.png",
     "label": "Tree 3-1",
     "layer": "bg",
-    "x": 8487,
-    "y": 33,
+    "x": 8486,
+    "y": 1,
     "scale": 0.708,
     "opacity": 1,
     "flipH": false,
@@ -1776,8 +1777,8 @@ const PROPS_DATA = [
     "asset": "v house/village-house-2_0000_Layer-1.png",
     "label": "V-House 2-1",
     "layer": "bg",
-    "x": 8961,
-    "y": 360,
+    "x": 8960,
+    "y": 335,
     "scale": 0.608,
     "opacity": 1,
     "flipH": false,
@@ -1787,8 +1788,8 @@ const PROPS_DATA = [
     "asset": "v house/village-house-2_0001_Layer-2.png",
     "label": "V-House 2-2",
     "layer": "bg",
-    "x": 9170,
-    "y": 393,
+    "x": 9172,
+    "y": 371,
     "scale": 0.5,
     "opacity": 1,
     "flipH": false,
@@ -1798,8 +1799,8 @@ const PROPS_DATA = [
     "asset": "v house/village-house_0002_Layer-0.png",
     "label": "V-House 1-0",
     "layer": "bg",
-    "x": 9388,
-    "y": 251,
+    "x": 9373,
+    "y": 173,
     "scale": 0.784,
     "opacity": 1,
     "flipH": false,
@@ -1831,8 +1832,8 @@ const PROPS_DATA = [
     "asset": "nature env/nature-1_0001_Layer-2.png",
     "label": "Nature L2",
     "layer": "bg",
-    "x": 9354,
-    "y": 397,
+    "x": 9356,
+    "y": 356,
     "scale": 0.162,
     "opacity": 1,
     "flipH": true,
@@ -1842,8 +1843,8 @@ const PROPS_DATA = [
     "asset": "nature env/nature-1_0001_Layer-2.png",
     "label": "Nature L2",
     "layer": "bg",
-    "x": 9277,
-    "y": 358,
+    "x": 9280,
+    "y": 330,
     "scale": 0.214,
     "opacity": 1,
     "flipH": false,
@@ -1854,7 +1855,7 @@ const PROPS_DATA = [
     "label": "Color Light",
     "layer": "mid",
     "x": 9537,
-    "y": 409,
+    "y": 362,
     "scale": 0.136,
     "opacity": 1,
     "flipH": false,
@@ -1865,7 +1866,7 @@ const PROPS_DATA = [
     "label": "V-House 3-1",
     "layer": "bg",
     "x": 9523,
-    "y": 431,
+    "y": 376,
     "scale": 0.25,
     "opacity": 1,
     "flipH": false,
@@ -1875,8 +1876,8 @@ const PROPS_DATA = [
     "asset": "femus/dalanda maligawa.png",
     "label": "Dalada Maligawa",
     "layer": "bg",
-    "x": 9610,
-    "y": 274,
+    "x": 9611,
+    "y": 215,
     "scale": 0.588,
     "opacity": 1,
     "flipH": false,
@@ -1886,8 +1887,8 @@ const PROPS_DATA = [
     "asset": "city 1/city-2_0003_Layer-4.png",
     "label": "City 2 L4",
     "layer": "bg",
-    "x": 9936,
-    "y": 298,
+    "x": 9934,
+    "y": 232,
     "scale": 0.707,
     "opacity": 1,
     "flipH": false,
@@ -1897,8 +1898,8 @@ const PROPS_DATA = [
     "asset": "city 1/city-2_0004_Layer-5.png",
     "label": "City 2 L5",
     "layer": "bg",
-    "x": 9983,
-    "y": 352,
+    "x": 9981,
+    "y": 303,
     "scale": 0.599,
     "opacity": 1,
     "flipH": false,
@@ -1908,8 +1909,8 @@ const PROPS_DATA = [
     "asset": "Fuel man/fuel shed  2.png",
     "label": "Shed 2",
     "layer": "bg",
-    "x": 10152,
-    "y": 333,
+    "x": 10158,
+    "y": 269,
     "scale": 0.296,
     "opacity": 1,
     "flipH": false,
@@ -1919,11 +1920,165 @@ const PROPS_DATA = [
     "asset": "tree w (2).png",
     "label": "Tree W2",
     "layer": "bg",
-    "x": 10020,
-    "y": 197,
+    "x": 10012,
+    "y": 118,
     "scale": 0.142,
     "opacity": 1,
     "flipH": false,
+    "flipV": false
+  },
+  {
+    "asset": "nature env/nature-1_0000_Layer-1.png",
+    "label": "Nature L1",
+    "layer": "bg",
+    "x": 10315,
+    "y": 140,
+    "scale": 0.333,
+    "opacity": 1,
+    "flipH": false,
+    "flipV": false
+  },
+  {
+    "asset": "trees/trees-1_0001_Layer-0.png",
+    "label": "Tree 1-0",
+    "layer": "bg",
+    "x": 10585,
+    "y": 146,
+    "scale": 0.5,
+    "opacity": 1,
+    "flipH": false,
+    "flipV": false
+  },
+  {
+    "asset": "trees/trees-2_0001_Layer-0.png",
+    "label": "Tree 2-0",
+    "layer": "bg",
+    "x": 10596,
+    "y": 331,
+    "scale": 0.229,
+    "opacity": 1,
+    "flipH": false,
+    "flipV": false
+  },
+  {
+    "asset": "nature env/nature-1_0003_Layer-4.png",
+    "label": "Nature L4",
+    "layer": "bg",
+    "x": 10495,
+    "y": 346,
+    "scale": 0.232,
+    "opacity": 1,
+    "flipH": false,
+    "flipV": false
+  },
+  {
+    "asset": "trees/trees-3_0001_Layer-0.png",
+    "label": "Tree 3-0",
+    "layer": "bg",
+    "x": 10303,
+    "y": 272,
+    "scale": 0.251,
+    "opacity": 1,
+    "flipH": false,
+    "flipV": false
+  },
+  {
+    "asset": "bill board/b board 5.png",
+    "label": "B-Board 5",
+    "layer": "mid",
+    "x": 10391,
+    "y": 304,
+    "scale": 0.238,
+    "opacity": 1,
+    "flipH": false,
+    "flipV": false
+  },
+  {
+    "asset": "shop/shop 2.png",
+    "label": "Shop 2",
+    "layer": "bg",
+    "x": 11031,
+    "y": 146,
+    "scale": 0.425,
+    "opacity": 1,
+    "flipH": false,
+    "flipV": false
+  },
+  {
+    "asset": "tree w (1).png",
+    "label": "Tree W1",
+    "layer": "bg",
+    "x": 10855,
+    "y": 156,
+    "scale": 0.248,
+    "opacity": 1,
+    "flipH": false,
+    "flipV": false
+  },
+  {
+    "asset": "city 1/city 1.png",
+    "label": "City 1",
+    "layer": "bg",
+    "x": 11781,
+    "y": 152,
+    "scale": 0.585,
+    "opacity": 1,
+    "flipH": false,
+    "flipV": false
+  },
+  {
+    "asset": "city 1/city-2_0001_Layer-2.png",
+    "label": "City 2 L2",
+    "layer": "bg",
+    "x": 11646,
+    "y": 135,
+    "scale": 0.697,
+    "opacity": 1,
+    "flipH": false,
+    "flipV": false
+  },
+  {
+    "asset": "gas sation.png",
+    "label": "Gas Station",
+    "layer": "bg",
+    "x": 11361,
+    "y": 197,
+    "scale": 0.292,
+    "opacity": 1,
+    "flipH": false,
+    "flipV": false
+  },
+  {
+    "asset": "trees/trees-5_0000_Layer-1.png",
+    "label": "Tree 5-1",
+    "layer": "bg",
+    "x": 11266,
+    "y": 89,
+    "scale": 0.576,
+    "opacity": 1,
+    "flipH": false,
+    "flipV": false
+  },
+  {
+    "asset": "city 1/city-3-_0002_Layer-3.png",
+    "label": "City 3 L3",
+    "layer": "bg",
+    "x": 11546,
+    "y": 207,
+    "scale": 0.493,
+    "opacity": 1,
+    "flipH": false,
+    "flipV": false
+  },
+  {
+    "asset": "trees/trees-5_0000_Layer-1.png",
+    "label": "Tree 5-1",
+    "layer": "bg",
+    "x": 11483,
+    "y": 109,
+    "scale": 0.5,
+    "opacity": 1,
+    "flipH": true,
     "flipV": false
   }
 ];
@@ -1974,61 +2129,62 @@ class Environment {
         sx += 300 + Math.random() * 500;
       }
     }
-    this.props.sort((a, b) => a.z - b.z); // Pre-sort for rendering performance
+    this.ambientParts.length = 25; // Permanent reduction for mobile
   }
   update(bikeX) { }
   draw(ctx, am, cam, canvasW, canvasH, gameScale) {
     const vW = canvasW / gameScale;
     const vH = canvasH / gameScale;
 
-    // Draw Props (Multi-Layer Parallax)
+    // Pre-calculate parallax camera positions
+    const camFarX = cam.x * 0.08, camFarY = cam.y * 0.08;
+    const camBgX = cam.x * 0.88, camBgY = cam.y * 1.0;
+    const camMidX = cam.x * 0.96, camMidY = cam.y * 1.0;
+
     this.props.forEach(p => {
       const img = am.get(p.key);
-      if (img) {
-        // Multi-layered Parallax factors (Smooth "Subtle" land movement)
-        let parX = 1.0;
-        let parY = 1.0;
+      if (!img) return;
 
-        if (p.layer === 'far_bg') { parX = 0.08; parY = 0.08; } // Good sky drift
-        else if (p.layer === 'bg') { parX = 0.88; parY = 1.0; } // Smooth landed
-        else if (p.layer === 'mid') { parX = 0.96; parY = 1.0; } // Almost fixed
+      let drawX, drawY;
+      if (p.layer === 'far_bg') { drawX = p.x - camFarX; drawY = p.y - camFarY; }
+      else if (p.layer === 'bg') { drawX = p.x - camBgX; drawY = p.y - camBgY; }
+      else if (p.layer === 'mid') { drawX = p.x - camMidX; drawY = p.y - camMidY; }
+      else { drawX = p.x - cam.x; drawY = p.y - cam.y; }
 
+      const w = img.width * p.scale;
+      const h = img.height * p.scale;
 
+      // Frustum Culling: Skip if completely off-screen
+      if (drawX + w < -100 || drawX > vW + 100) return;
 
-        const drawX = p.x - cam.x * parX;
-        const drawY = p.y - cam.y * parY;
+      ctx.save();
+      ctx.globalAlpha = p.opacity || 1.0;
+      ctx.translate(drawX + w / 2, drawY + h / 2);
+      ctx.scale(p.flipH ? -1 : 1, p.flipV ? -1 : 1);
+      ctx.drawImage(img, -w / 2, -h / 2, w, h);
+      ctx.restore();
 
-        const w = img.width * p.scale;
-        const h = img.height * p.scale;
-
+      // Special decoration for Senaro Building
+      if (p.key === 'senaro') {
         ctx.save();
-        ctx.globalAlpha = p.opacity || 1.0;
-        ctx.translate(drawX + w / 2, drawY + h / 2); // Center of asset
-        ctx.scale(p.flipH ? -1 : 1, p.flipV ? -1 : 1);
-        ctx.drawImage(img, -w / 2, -h / 2, w, h);
+        ctx.translate(drawX, drawY);
+        ctx.fillStyle = '#FFD700'; ctx.fillRect(-10, -90, 5, 90);
+        ctx.fillStyle = '#FF4500'; ctx.fillRect(-5, -90, 32, 22);
         ctx.restore();
-
-        // Special decoration for Senaro Building
-        if (p.key === 'senaro') {
-          ctx.save();
-          ctx.translate(drawX, drawY);
-          ctx.fillStyle = '#FFD700'; ctx.fillRect(-10, -90, 5, 90); // Flag pole
-          ctx.fillStyle = '#FF4500'; ctx.fillRect(-5, -90, 32, 22); // Flag
-          ctx.restore();
-        }
       }
     });
   }
   drawAmbient(ctx, cam) {
-    ctx.fillStyle = 'rgba(255, 220, 100, 0.5)';
+    ctx.fillStyle = 'rgba(255, 220, 100, 0.4)';
     this.ambientParts.forEach(p => {
       p.x -= cam.x * 0.005 + Math.cos(p.phase) * 0.5;
       p.y -= 0.3 + Math.sin(p.phase) * 0.2;
       p.phase += 0.02;
       if (p.x < -20) p.x = C.W + 20; if (p.x > C.W + 20) p.x = -20;
       if (p.y < -20) p.y = C.H + 20; if (p.y > C.H + 20) p.y = -20;
-      ctx.globalAlpha = 0.3 + Math.sin(p.phase * 2) * 0.3;
-      ctx.beginPath(); ctx.arc(p.x, p.y, p.sz, 0, Math.PI * 2); ctx.fill();
+
+      ctx.globalAlpha = 0.2 + Math.sin(p.phase * 2) * 0.2;
+      ctx.fillRect(p.x, p.y, p.sz, p.sz);
     });
     ctx.globalAlpha = 1.0;
   }
